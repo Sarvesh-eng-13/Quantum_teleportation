@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Quantum Teleportation – Simulation Dashboard</title>
+<style>
+:root{--bg:#f7f3fc;--card:#fff;--ink:#1f2547;--mut:#5b6288;--line:#d9d4ee;--c1:#dbe9ff;--c2:#eadcf8;--c3:#d9f2dc;--c4:#ffdede;--c5:#dfe3ff;--c6:#fff1cf;--acc:#2456d8;--ok:#1b9a4b;--bad:#d03a3a;--g1:#8a8fb3;--g2:#1b9a4b;box-sizing:border-box;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12142a;--card:#1c1f3d;--ink:#e8eaff;--mut:#a3a9d6;--line:#343862;--c1:#243a6e;--c2:#3a2a62;--c3:#1f4a37;--c4:#5a2a36;--c5:#2c3170;--c6:#5a4a1f;--acc:#7da2ff;--ok:#4cd080;--bad:#ff7a7a;--g1:#9aa0c8;--g2:#4cd080;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12142a;--card:#1c1f3d;--ink:#e8eaff;--mut:#a3a9d6;--line:#343862;--c1:#243a6e;--c2:#3a2a62;--c3:#1f4a37;--c4:#5a2a36;--c5:#2c3170;--c6:#5a4a1f;--acc:#7da2ff;--ok:#4cd080;--bad:#ff7a7a;--g1:#9aa0c8;--g2:#4cd080;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:1180px;margin:0 auto;padding:16px}
+header{text-align:center;margin-bottom:14px}
+.t{display:inline-block;background:var(--c1);border-radius:16px;padding:6px 22px;font-size:clamp(22px,4vw,34px);font-weight:700;margin:0}
+.s{margin:8px 0 2px;font-size:clamp(14px,2.2vw,18px);font-weight:600}.m{color:var(--mut);font-size:13px}
+.bd{display:inline-block;background:var(--c2);border-radius:20px;padding:3px 16px;margin-top:6px;font-weight:600}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.p{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
+.p h2{margin:0;padding:9px 14px;font-size:15px}.b{padding:12px 14px}
+.sp{grid-column:1/-1}.l{margin:0 0 6px;color:var(--mut);font-size:13px}
+label{display:block;padding:2px 0;cursor:pointer}input{accent-color:var(--acc)}
+input[type=range]{width:100%}
+button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+button:disabled{opacity:.55;cursor:wait}
+.big{font-size:26px;font-weight:700;border:1px solid var(--line);border-radius:10px;padding:4px 12px;margin:0 0 10px;text-align:center}
+.ver{font-weight:700;font-size:17px;min-height:26px}.ok{color:var(--ok)}.bad{color:var(--bad)}
+svg{width:100%;height:auto;display:block}
+.ck text{font-size:11px;fill:var(--ink)}.ck path,.ck circle,.ck rect{stroke:var(--ink);fill:none;stroke-width:1.4}.ck .f{fill:var(--ink)}
+.cg{opacity:.4;transition:opacity .3s}.cg.on{opacity:1}.cg.on rect{fill:var(--c5)}.cg.on path,.cg.on circle,.cg.on rect{stroke:var(--acc)}
+ol{margin:8px 0 0;padding-left:20px;font-size:13px}ol li{opacity:.45;padding:1px 0}ol li.on{opacity:1;font-weight:600;color:var(--acc)}
+.ax{fill:none;stroke:var(--line)}.tx{fill:var(--mut);font-size:9px}.cb{stroke:var(--g1);fill:none;stroke-width:2}.cr{stroke:var(--g2);fill:none;stroke-width:2}
+.pb{fill:var(--g1)}.pr{fill:var(--g2)}.lim{stroke:var(--bad);stroke-dasharray:4 3}.mk{stroke:var(--acc);stroke-dasharray:2 3}
+.lg{font-size:12px;color:var(--mut);display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.lg i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:4px}
+.ins p{margin:6px 0}ul{margin:4px 0;padding-left:20px}.tm li{list-style:none;padding:5px 0;border-bottom:1px solid var(--line)}.tm{padding:0}
+.tm span{color:var(--mut);font-size:13px}
+@media(max-width:900px){.g{grid-template-columns:1fr}}
+</style></head><body><div class="w">
+<header><h1 class="t">Quantum Teleportation</h1>
+<div class="s">Using a Single Qubit and the Three-Qubit Protocol</div>
+<div class="m">Basics of Quantum Technologies · SLA 2</div><div class="bd">Digital Simulation Dashboard</div></header>
+<div class="g">
+<section class="p"><h2 style="background:var(--c1)">1. Alice – Transmitter</h2><div class="b">
+<p class="l">Select quantum state:</p>
+<label><input type="radio" name="st" value="0" checked> |0⟩</label>
+<label><input type="radio" name="st" value="1"> |1⟩</label>
+<label><input type="radio" name="st" value="p"> |+⟩</label>
+<label><input type="radio" name="st" value="m"> |−⟩</label>
+<button id="go">▶ Start Teleportation</button></div></section>
+<section class="p"><h2 style="background:var(--c2)">2. Quantum Circuit (3 qubits)</h2><div class="b">
+<svg class="ck" viewBox="0 0 300 150"><path d="M24 36H300M24 80H300M24 124H266" style="stroke:var(--line);stroke-width:1.4"/>
+<text x="2" y="40">|ψ⟩</text><text x="2" y="84">|0⟩</text><text x="2" y="128">|0⟩</text>
+<g class="cg" id="s1"><rect x="44" y="68" width="24" height="24"/><text x="52" y="85">H</text><circle cx="96" cy="80" r="3.5" class="f"/><path d="M96 80V124"/><circle cx="96" cy="124" r="7"/><path d="M89 124H103M96 117V131"/></g>
+<g class="cg" id="s2"><circle cx="140" cy="36" r="3.5" class="f"/><path d="M140 36V80"/><circle cx="140" cy="80" r="7"/><path d="M133 80H147M140 73V87"/><rect x="164" y="24" width="24" height="24"/><text x="172" y="41">H</text></g>
+<g class="cg" id="s3"><rect x="206" y="24" width="24" height="24"/><text x="213" y="41">M</text><rect x="206" y="68" width="24" height="24"/><text x="213" y="85">M</text><path d="M230 36H262V112M230 80H262" stroke-dasharray="3 3"/></g>
+<g class="cg" id="s4"><rect x="266" y="112" width="30" height="24"/><text x="269" y="128">X/Z</text></g></svg>
+<ol id="steps"><li>Bell pair shared by Alice and Bob</li><li>Alice entangles |ψ⟩ with her half</li><li>Alice measures and sends 2 classical bits</li><li>Bob applies the X / Z correction</li><li>Bob’s qubit compared with |ψ⟩</li></ol></div></section>
+<section class="p"><h2 style="background:var(--c3)">3. Bob – Receiver</h2><div class="b">
+<p class="l">Last single shot:</p><div class="big" id="rs">–</div>
+<p class="l">Average fidelity (1000 sends):</p><div class="big" id="fid">–</div>
+<div class="ver" id="ver">Press Start Teleportation</div><div class="m" id="cnt"></div></div></section>
+<section class="p"><h2 style="background:var(--c4)">4. Fidelity vs Noise</h2><div class="b"><svg id="gf" viewBox="0 0 300 180"></svg>
+<div class="lg"><span><i style="background:var(--g1)"></i>Baseline</span><span><i style="background:var(--g2)"></i>Noise reduction ON</span><span><i style="background:var(--bad)"></i>Classical limit 2/3</span></div></div></section>
+<section class="p"><h2 style="background:var(--c5)">5. Transmission Success Rate</h2><div class="b"><svg id="gs" viewBox="0 0 300 180"></svg>
+<div class="lg"><span>Success = qubit arrives and F &gt; 2/3</span></div></div></section>
+<section class="p"><h2 style="background:var(--c6)">6. Noise Control</h2><div class="b">
+<p class="l">Noise level: <b id="nv">30%</b></p><input type="range" id="nz" min="0" max="100" value="30">
+<p class="l" style="margin-top:10px">Models:</p>
+<label><input type="checkbox" id="dep" checked> Depolarizing noise</label>
+<label><input type="checkbox" id="loss" checked> Qubit loss (10%)</label>
+<label><input type="checkbox" id="flip" checked> Bit-flip noise (5%)</label>
+<label style="margin-top:8px;font-weight:600"><input type="checkbox" id="red"> Noise reduction</label>
+<div class="m">Purification + 3× classical bits + re-send on loss</div></div></section>
+<section class="p sp ins"><h2 style="background:var(--c2)">Interpretation: effect of noise (live)</h2><div class="b" id="ins"></div></section>
+<section class="p sp"><h2 style="background:var(--c3)">7. Project Overview</h2><div class="b"><ul>
+<li>Demonstrates quantum teleportation of one qubit</li><li>Uses the three-qubit protocol (Bell pair, 2 classical bits)</li>
+<li>Shows the impact of noise and loss on fidelity and success rate</li><li>Shows how noise reduction recovers fidelity</li>
+<li>Full 3-qubit state-vector Monte Carlo simulation</li></ul></div></section>
+</div></div>
+<script>
+const $=i=>document.getElementById(i),S2=Math.SQRT1_2,LOSS=.1,FLIP=.05,LIM=2/3;
+const H=[S2,0,S2,0,S2,0,-S2,0],X=[0,0,1,0,1,0,0,0],Y=[0,0,0,-1,0,1,0,0],Z=[1,0,0,0,0,0,-1,0],I=[1,0,0,0,0,0,1,0],P=[I,X,Y,Z],PN=['I','X','Y','Z'];
+const PSI={0:[1,0],1:[0,1],p:[S2,S2],m:[S2,-S2]},LB={0:'|0⟩',1:'|1⟩',p:'|+⟩',m:'|−⟩'};
+const re=new Float64Array(8),im=new Float64Array(8);
+function g1(q,m){const b=1<<(2-q);for(let k=0;k<8;k++){if(k&b)continue;const j=k|b,ar=re[k],ai=im[k],br=re[j],bi=im[j];
+re[k]=m[0]*ar-m[1]*ai+m[2]*br-m[3]*bi;im[k]=m[0]*ai+m[1]*ar+m[2]*bi+m[3]*br;
+re[j]=m[4]*ar-m[5]*ai+m[6]*br-m[7]*bi;im[j]=m[4]*ai+m[5]*ar+m[6]*bi+m[7]*br}}
+function cn(c,t){const mc=1<<(2-c),mt=1<<(2-t);for(let k=0;k<8;k++)if((k&mc)&&!(k&mt)){const j=k|mt;[re[k],re[j]]=[re[j],re[k]];[im[k],im[j]]=[im[j],im[k]]}}
+function cfg(){return{st:document.querySelector('input[name=st]:checked').value,nz:+$('nz').value/100,dep:$('dep').checked,loss:$('loss').checked,flip:$('flip').checked,red:$('red').checked}}
+function lamEff(l,red){if(!red)return l;let F=1-.75*l;for(let r=0;r<2;r++){if(F<=.5)break;const e=(1-F)/3;F=(F*F+e*e)/(F*F+2*F*e+5*e*e)}return(1-F)*4/3}
+function bit(b,f,n){let o=0;for(let i=0;i<n;i++)o+=(Math.random()<f)?b^1:b;return o*2>n?1:0}
+function trial(c,lm,red){
+ if(c.loss){let ok=false;for(let t=0;t<(red?3:1)&&!ok;t++)ok=Math.random()>=LOSS;if(!ok)return{lost:1}}
+ const[a,b]=PSI[c.st];re.fill(0);im.fill(0);re[0]=a;re[4]=b;
+ g1(1,H);cn(1,2);let pe=0;if(Math.random()<lm){pe=Math.floor(Math.random()*4);g1(2,P[pe])}
+ cn(0,1);g1(0,H);
+ const p=[0,1,2,3].map(o=>re[2*o]**2+im[2*o]**2+re[2*o+1]**2+im[2*o+1]**2);
+ let m=p.indexOf(Math.max(...p)),r=Math.random(),acc=0;for(let k=0;k<4;k++){acc+=p[k];if(r<acc){m=k;break}}
+ const s=1/Math.sqrt(p[m]);let b0r=re[2*m]*s,b0i=im[2*m]*s,b1r=re[2*m+1]*s,b1i=im[2*m+1]*s;
+ const n=red?3:1,fp=c.flip?FLIP:0,m0=m>>1,m1=m&1,r0=bit(m0,fp,n),r1=bit(m1,fp,n);
+ if(r1){[b0r,b1r]=[b1r,b0r];[b0i,b1i]=[b1i,b0i]}if(r0){b1r=-b1r;b1i=-b1i}
+ const f=(a*b0r+b*b1r)**2+(a*b0i+b*b1i)**2;return{lost:0,f,m0,m1,r0,r1,pe}}
+function run(c,nz,red,n){const lm=lamEff(c.dep?nz:0,red);let sm=0,ar=0,ok=0;
+ for(let i=0;i<n;i++){const t=trial(c,lm,red);if(!t.lost){sm+=t.f;ar++;if(t.f>LIM)ok++}}return{f:ar?sm/ar:0,s:ok/n,lost:n-ar}}
+function gr(id,k,B,R,nz){const l=40,t=10,w=244,h=130,d=k=='f'?[.4,1]:[0,1];
+ const Y=v=>t+h-(Math.min(Math.max(v,d[0]),d[1])-d[0])/(d[1]-d[0])*h,Xp=i=>l+i*w/10;
+ let o=`<rect class="ax" x="${l}" y="${t}" width="${w}" height="${h}"/>`;
+ [0,.5,1].forEach(q=>{const v=d[0]+q*(d[1]-d[0]);o+=`<line class="ax" x1="${l}" x2="${l+w}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tx" x="${l-5}" y="${Y(v)+3}" text-anchor="end">${k=='f'?v.toFixed(1):Math.round(v*100)+'%'}</text><text class="tx" x="${l+q*w}" y="${t+h+12}" text-anchor="middle">${q*100}</text>`});
+ o+=`<text class="tx" x="${l+w/2}" y="${t+h+27}" text-anchor="middle">Noise p (%)</text>`;
+ if(k=='f')o+=`<line class="lim" x1="${l}" x2="${l+w}" y1="${Y(LIM)}" y2="${Y(LIM)}"/><text class="tx" x="${l+w-2}" y="${Y(LIM)-3}" text-anchor="end" style="fill:var(--bad)">2/3</text>`;
+ const q=nz*w+l;o+=`<line class="mk" x1="${q}" x2="${q}" y1="${t}" y2="${t+h}"/>`;
+ [[B,'cb','pb'],[R,'cr','pr']].forEach(([A,c1,c2])=>{const v=A.map(x=>x[k]);o+=`<path class="${c1}" d="${v.map((y,i)=>(i?'L':'M')+Xp(i)+' '+Y(y)).join('')}"/>`+v.map((y,i)=>`<circle class="${c2}" cx="${Xp(i)}" cy="${Y(y)}" r="2.6"/>`).join('')});
+ $(id).innerHTML=o}
+function cross(A){if(A[0].f<LIM)return 0;for(let i=1;i<11;i++)if(A[i].f<LIM)return((i-1)+(A[i-1].f-LIM)/(A[i-1].f-A[i].f))*10;return -1}
+function refresh(){const c=cfg();$('nv').textContent=Math.round(c.nz*100)+'%';
+ const B=[],R=[];for(let i=0;i<=10;i++){B.push(run(c,i/10,false,300));R.push(run(c,i/10,true,300))}
+ gr('gf','f',B.map(x=>({f:x.f})),R.map(x=>({f:x.f})),c.nz);gr('gs','s',B.map(x=>({s:x.s})),R.map(x=>({s:x.s})),c.nz);
+ const a=run(c,c.nz,false,1000),r=run(c,c.nz,true,1000),cx=cross(B),pc=Math.round(c.nz*100);
+ let h=`<p>At <b>${pc}%</b> noise: fidelity <b>${a.f.toFixed(2)}</b> → <b>${r.f.toFixed(2)}</b> with noise reduction; success rate <b>${Math.round(a.s*100)}%</b> → <b>${Math.round(r.s*100)}%</b>.</p>`;
+ h+=c.dep?`<p>Without reduction, fidelity drops below the classical limit (2/3) near <b>${cx<0?'>100':Math.round(cx)}%</b> noise (theory: F = 1 − p/2, so p = 67%). Beyond that, a classical measure-and-resend link does as well.</p>`:`<p>Depolarizing noise is off, so fidelity stays high. Success rate still falls because of qubit loss and wrong corrections from flipped bits.</p>`;
+ h+=`<ul><li><b>Depolarizing noise</b> weakens the entanglement: F = 1 − p/2, reaching 0.5 (random guess) at 100%.</li><li><b>Qubit loss</b> and <b>bit-flips</b> hit the success rate: a lost qubit never arrives, and a flipped bit makes Bob apply the wrong correction.</li><li><b>Noise reduction</b> (entanglement purification, 3× repeated bits, re-sending) recovers fidelity while the pair is still above 50% fidelity (noise below about 67%). Past that point no protocol can help, so both curves merge.</li></ul>`;
+ $('ins').innerHTML=h}
+const sl=ms=>new Promise(r=>setTimeout(r,ms));
+async function go(){const c=cfg(),btn=$('go');btn.disabled=true;const lm=lamEff(c.dep?c.nz:0,c.red),t=trial(c,lm,c.red);
+ const L=[...document.querySelectorAll('#steps li')],G=['s1','s2','s3','s4'].map($);
+ const tx=[t.pe>0?`Bell pair created – noise hit Bob’s half (${PN[t.pe]} error)`:'Bell pair created – Alice and Bob share entanglement','Alice entangles '+LB[c.st]+' with her half (CNOT + H)',
+ t.lost?'':`Alice measures: bits m0 m1 = ${t.m0}${t.m1}`+((t.r0!=t.m0||t.r1!=t.m1)?` (channel flipped them to ${t.r0}${t.r1})`:' – sent to Bob'),
+ t.lost?'':'Bob applies '+((t.r1?'X':'')+(t.r0?'Z':'')||'no gate'),t.lost?'':`Bob’s qubit vs ${LB[c.st]}: F = ${t.f.toFixed(2)} ${t.f>LIM?'✓':'✗'}`];
+ [...L,...G].forEach(e=>e.classList.remove('on'));$('rs').textContent='…';
+ for(let i=0;i<5;i++){if(t.lost&&i>1)break;L[i].textContent=tx[i];L[i].classList.add('on');if(i<4)G[i].classList.add('on');await sl(650)}
+ if(t.lost){L[2].textContent='Qubit lost in the channel ✗';L[2].classList.add('on')}
+ const o=run(c,c.nz,c.red,1000);$('rs').innerHTML=t.lost?'<span class="bad">lost ✗</span>':t.f>LIM?`<span class="ok">${LB[c.st]} ✓</span>`:'<span class="bad">wrong state ✗</span>';
+ $('fid').textContent=o.f.toFixed(2);$('fid').className='big '+(o.f>LIM?'ok':'bad');
+ $('ver').innerHTML=o.f>LIM?'<span class="ok">✔ Success – beats classical limit</span>':'<span class="bad">✘ Below classical limit 2/3</span>';
+ $('cnt').textContent=`Success rate ${Math.round(o.s*100)}% · ${o.lost} of 1000 qubits lost`;btn.disabled=false}
+$('go').onclick=go;
+['nz','dep','loss','flip','red'].forEach(i=>$(i).addEventListener('input',refresh));
+document.querySelectorAll('input[name=st]').forEach(e=>e.addEventListener('change',refresh));
+refresh();
+</script></body></html>
